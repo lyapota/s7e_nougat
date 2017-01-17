@@ -1054,7 +1054,6 @@ static noinline int avc_denied(u32 ssid, u32 tsid,
 		return -EACCES;
 #endif
 // ] SEC_SELINUX_PORTING_COMMON
-		return -EACCES;
 
 	avc_update_node(AVC_CALLBACK_GRANT, requested, driver, xperm, ssid,
 				tsid, tclass, avd->seqno, NULL, flags);
