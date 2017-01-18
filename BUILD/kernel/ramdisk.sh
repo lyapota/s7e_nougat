@@ -1,6 +1,6 @@
 #!/sbin/sh
 # ========================================
-# script Prometheus kernels
+# script Appolo kernels
 # ========================================
 # Created by lyapota
 
@@ -15,10 +15,10 @@ get_sel()
 }
 
 
-if [ ! -e $DIR_SEL/pr_little_min.prop ]; then
+if [ ! -e $DIR_SEL/ap_little_min.prop ]; then
 	little_min="0"
 else
-	val1=`get_sel pr_little_min.prop`
+	val1=`get_sel ap_little_min.prop`
         case $val1 in
         	1)
         	  little_min="338000"
@@ -39,10 +39,10 @@ else
 fi
 
 
-if [ ! -e $DIR_SEL/pr_little_max.prop ]; then
+if [ ! -e $DIR_SEL/ap_little_max.prop ]; then
 	little_max="0"
 else
-	val1=`get_sel pr_little_max.prop`
+	val1=`get_sel ap_little_max.prop`
         case $val1 in
         	1)
         	  little_max="1586000"
@@ -63,10 +63,10 @@ else
 fi
 
 
-if [ ! -e $DIR_SEL/pr_big_min.prop ]; then
+if [ ! -e $DIR_SEL/ap_big_min.prop ]; then
 	big_min="0"
 else
-	val1=`get_sel pr_big_min.prop`
+	val1=`get_sel ap_big_min.prop`
         case $val1 in
         	1)
         	  big_min="312000"
@@ -87,10 +87,10 @@ else
 fi
 
 
-if [ ! -e $DIR_SEL/pr_big_max.prop ]; then
+if [ ! -e $DIR_SEL/ap_big_max.prop ]; then
 	big_max="0"
 else
-	val1=`get_sel pr_big_max.prop`
+	val1=`get_sel ap_big_max.prop`
         case $val1 in
         	1)
         	  big_max="2288000"
@@ -117,10 +117,10 @@ else
 fi
 
 
-if [ ! -e $DIR_SEL/pr_gpu_max.prop ]; then
+if [ ! -e $DIR_SEL/ap_gpu_max.prop ]; then
 	gpu_max="0"
 else
-	val1=`get_sel pr_gpu_max.prop`
+	val1=`get_sel ap_gpu_max.prop`
         case $val1 in
         	1)
         	  gpu_max="546"
@@ -141,10 +141,10 @@ else
 fi
 
 
-if [ ! -e $DIR_SEL/pr_reset_freq.prop ]; then
+if [ ! -e $DIR_SEL/ap_reset_freq.prop ]; then
 	reset_freq="10"
 else
-	val1=`get_sel pr_reset_freq.prop`
+	val1=`get_sel ap_reset_freq.prop`
         case $val1 in
         	1)
         	  reset_freq="5"
@@ -168,8 +168,8 @@ echo -e "echo \"$reset_freq\" > /sys/power/cpufreq_reset_limit_sec;" >> $FILE_SC
 cat $FILE_SCRIPT;
 
 
-if [ -e $DIR_SEL/pr_fix_fs.prop ]; then
-	val1=`get_sel pr_fix_fs.prop`
+if [ -e $DIR_SEL/ap_fix_fs.prop ]; then
+	val1=`get_sel ap_fix_fs.prop`
 	if [ "$val1" == "2" ]; then
 		cp -f /tmp/init /tmp/AIK/ramdisk/init
 	fi

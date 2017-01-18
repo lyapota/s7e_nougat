@@ -1,6 +1,6 @@
 #!/sbin/sh
 # ========================================
-# script Prometheus kernels
+# script Appolo kernels
 # ========================================
 # Created by lyapota
 

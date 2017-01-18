@@ -1,6 +1,6 @@
 #!/sbin/sh
 # ========================================
-# script Prometheus kernels
+# script Appolo kernels
 # ========================================
 # Created by lyapota
 
@@ -13,10 +13,10 @@ get_sel()
   echo $sel_value
 }
 
-if [ ! -e $DIR_SEL/pr_device.prop ]; then
+if [ ! -e $DIR_SEL/ap_device.prop ]; then
 	BOOT="boot.img"
 else
-	val1=`get_sel pr_device.prop`
+	val1=`get_sel ap_device.prop`
         case $val1 in
         	1)
 		  BOOT="boot-hero2lte.img"

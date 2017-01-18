@@ -1,6 +1,6 @@
 #!/sbin/sh
 mount /system;
-	cp -f /system/aroma/pr_*.prop /tmp/aroma-data;
-	rm -f /system/aroma/pr_*.prop;
+	cp -f /system/aroma/ap_*.prop /tmp/aroma;
+        chmod 777 /tmp/aroma/ap_*.prop
 umount /system;
 exit 0

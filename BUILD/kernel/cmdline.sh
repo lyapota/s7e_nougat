@@ -1,6 +1,6 @@
 #!/sbin/sh
 # ========================================
-# script Prometheus kernels
+# script Appolo kernels
 # ========================================
 # Created by lyapota
 
@@ -15,10 +15,10 @@ get_sel()
 
 #############
 ## set vdd_uv
-if [ ! -e $DIR_SEL/pr_vdd_uv.prop ]; then
+if [ ! -e $DIR_SEL/ap_vdd_uv.prop ]; then
 	vdd_uv="vdd_uv=0"
 else
-	val1=`get_sel pr_vdd_uv.prop`
+	val1=`get_sel ap_vdd_uv.prop`
         case $val1 in
 
         	1)
@@ -39,11 +39,11 @@ else
         esac
 fi
 
-if [ ! -e $DIR_SEL/pr_big_hp.prop ]; then
+if [ ! -e $DIR_SEL/ap_big_hp.prop ]; then
 	big_hp2="4"
 	big_hp4="7"
 else
-	val1=`get_sel pr_big_hp.prop`
+	val1=`get_sel ap_big_hp.prop`
         case $val1 in
         	1)
         	  big_hp2="big_hp2=4"
@@ -78,10 +78,10 @@ fi
 
 #############
 ## set tmu_cool
-if [ ! -e $DIR_SEL/pr_tmu_cool.prop ]; then
+if [ ! -e $DIR_SEL/ap_tmu_cool.prop ]; then
 	tmu_cool="tmu_cool=0"
 else
-	val1=`get_sel pr_tmu_cool.prop`
+	val1=`get_sel ap_tmu_cool.prop`
         case $val1 in
 
         	1)

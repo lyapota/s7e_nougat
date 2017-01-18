@@ -1,4 +1,3 @@
-### LICENSE:
 #
 # Copyright (C) 2011 Ahmad Amarullah ( http://amarullz.com/ )
 #
@@ -16,13 +15,13 @@
 #
 ### FILE INFO:
 #
-# AROMA Installer 2.70RC2 - AROMA Installer Test Script Configuration
-#       (c) 2011-2014 by Ahmad Amarullah
+# AROMA Installer 2.70 - AROMA Installer Test Script Configuration
+#       (c) 2011-2012 by Ahmad Amarullah
 #           amarullz - xda-developers
 #           http://www.amarullz.com/
 #
-#       Binary Version  : 2.70RC2
-#       Binary Codename : FLAMBOYAN
+#       Binary Version  : 3.00
+#       Binary Codename : Flamboyan
 #
 ### INFO:
 #
@@ -30,12 +29,70 @@
 #
 # * AROMA Temporary Dir = /tmp/aroma/
 #
-# * About Icon          = @alert - show <AROMA Resource Dir>/@alert.png
+# * About Icon          = @alert - show <AROMA Resource Dir>/icons/alert.png
 #                         or if theme used it will find <themedir>/icon.alert.png
-#                         you can still access it via "@alert"
+#                         you can still access it via "icons/alert"
 #
 # * dp                  = Device Pixelate. WVGA/QHD = 3, HVGA = 2.
 #                         dp calculated with = round(min(width,height) / 160)
+#
+###
+
+##
+# Fix Colorspace Issue
+#
+# For device which have a problem with color ( not display the correct color )
+# try to set "force_colorspace" with ini_set. It may caused by wrong framebuffer
+# information that passed by kernel into framebuffer device.
+#
+# You can use one of following values:
+#   "rgba", "abgr", "argb", "bgra"
+#
+# NOTE: It must be in top most script, or you will got the color flicker
+#
+#ini_set("force_colorspace","argb");
+#
+
+##
+# Forcing Device Pixelate Size
+#  defaut: floor( min( width, height ) / 160 )
+#
+# Usefull for tablet device, if interface was too big, you can
+# force dp size for smaller UI size.
+#
+#-------- Uncomment one of this to use custom dp size:
+#
+# ini_set("dp","1"); #-- LDPI ( 240x320 / QVGA )
+# ini_set("dp","2"); #-- MDPI ( 340x480 / HVGA )
+# ini_set("dp","3"); #-- HDPI ( 480x800 / WVGA )
+# ini_set("dp","4");
+# ini_set("dp","5");
+#
+
+##
+# Custom Key Code - Usefull For Some Device which not used
+#                   Standard key code for up/down/select/back/menu
+#
+# You can capture the keycode in
+# recovery using "aroma-keycapture-flashable.zip" Available in
+# AROMA Installer Thread.
+#
+# Press some key when it run, it will return key code,
+# that key can override up/down/select/back/menu actions in
+# AROMA Installer, you can even set your home key for up, or
+# volume down for select item
+#
+#-------- Uncomment & Modify this Code:
+#
+# ini_set("customkeycode_up",     "115");
+# ini_set("customkeycode_down",   "114");
+# ini_set("customkeycode_select", "116");
+# ini_set("customkeycode_menu",   "229");
+# ini_set("customkeycode_back",   "158");
+#
+
+##
+# Initializing Rom Information
 #
 
 ini_set("rom_name",             "Appolo");
@@ -44,8 +101,6 @@ ini_set("rom_author",           "lyapota");
 ini_set("rom_device",           "Samsung SM-G935F/G930F");
 ini_set("rom_date",             "18 January 2017");
 
-ini_set("force_colorspace", "rgba");
-
 fontresload( "0", "ttf/DroidSans.ttf", "12" );
 fontresload( "1", "ttf/DroidSans.ttf", "18" );
 
@@ -53,7 +108,7 @@ fontresload( "1", "ttf/DroidSans.ttf", "18" );
 
 splash(4000, "lyapota");
 
-theme("sense");
+theme("miui4");
 
 ###################################################################################################################
 #
@@ -119,30 +174,75 @@ if
 then
   exit();
 endif;
-	
-#Restore prev installation config
-resexec("scripts/restore.sh");
 
 ###################################################################################################################
 #
 # STEP 3 - SELECT PLATFORM
 #
 
-menubox(
-  "platform",
-  "wich device install the kernel:",
-  "@apps",
-  "pr_device.prop",
-
-  "S7 EDGE SM-G935F/D","","@lux",
-  "S7 FLAT SM-G930F/D","","@blue"
-);
 
 ###################################################################################################################
 #
 # STEP 4 - SETUP INSTALLATION
 #
 
+########################Wipe method###########################
+  checkbox(
+    # Title
+    "Wipe method",
+
+    # Sub Title
+    "",
+
+    # Icon
+    "@wipe",
+
+    # Will be saved in /tmp/aroma/aroma.prop
+    "aroma.prop",
+
+    #----------[ Checkbox Without Group ]---------------#
+    # TITLE            |  SUBTITLE       | Initial Value #
+    #------------------+-----------------+---------------#
+    #--------[ Initial Value = 0: Unselected, 1: Selected, 2: Group Item, 3: Not Visible ]---------#
+
+    "AROMA",       "",                                               2, #-- item.1
+    "no story",  "remove user apps and data, excluding data/media",  0 #-- item.1.1
+  );
+
+  if prop("aroma.prop","item.1.1")=="0" then
+    #Restore prev installation config
+    resexec("scripts/restore.sh");
+  endif;
+
+
+  #########
+  ## SU
+  #########
+
+  selectbox(
+    #-- Title
+    "ROOT method",
+    
+    #-- Sub Title
+    "Customize how to root your device",
+    
+    #-- Icon: <AROMA Resource Dir>/icons/personalize.png or <ThemeDir>/icon.personalize.png
+    "@sim",
+    
+    #-- Will be saved in /tmp/aroma/ap_su.prop
+    "ap_su.prop",
+
+    #----------[ Selectbox Without Group ]---------------#
+    # TITLE            |  SUBTITLE       | Initial Value #
+    #------------------+-----------------+---------------#
+    #--------[ Initial Value = 0: Unselected, 1: Selected, 2: Group Item, 3: Not Visible ]---------#
+
+    "No root",                  "stock patched kernel without root",  0, #-- selected.0 = 1
+    "Magisk + Superuser",    "patched kernel rooted by Superuser",    1, #-- selected.0 = 2
+    "SuperSU",                  "patched kernel rooted by SuperSU",   0 #-- selected.0 = 3
+
+  );
+	
   #########
   ## LITTLE CPU claster
   #########
@@ -151,7 +251,7 @@ menubox(
       "LITTLE(A53) CLASTER",
       "select <b>MIN</b> APPOLO frequence",
       "@apps",
-      "pr_little_min.prop",
+      "ap_little_min.prop",
 
       "338 MHz","",0,
       "442 MHz","<b>stock</b>",1,
@@ -164,7 +264,7 @@ menubox(
       "LITTLE(A53)",
       "select <b>MAX</b> APPOLO frequence",
       "@apps",
-      "pr_little_max.prop",
+      "ap_little_max.prop",
 
       "1.586 GHz","<b>stock</b>",1,
       "1.690 GHz","",0,
@@ -182,7 +282,7 @@ menubox(
       "BIG(M1)",
       "select <b>MIN</b> MONGOOSE frequence",
       "@apps",
-      "pr_big_min.prop",
+      "ap_big_min.prop",
 
       "312 MHz","",0,
       "416 MHz","",0,
@@ -195,7 +295,7 @@ menubox(
       "BIG(M1)",
       "select <b>UP</b> scale MONGOOSE frequence",
       "@apps",
-      "pr_big_max.prop",
+      "ap_big_max.prop",
       "2.3 GHz","<b>stock</b>",1,
       "2.4 GHz","",0,
       "2.5 GHz","",0,
@@ -209,7 +309,7 @@ menubox(
       "BIG(M1)",
       "select <b>MAX</b> MONGOOSE hotplug limits\n2 active cores/ 4 active cores.",
       "@apps",
-      "pr_big_hp.prop",
+      "ap_big_hp.prop",
       "2.6 GHz / 2.3 GHz","<b>stock</b>",1,
       "2.7 GHz / 2.4 GHz","",0,
       "2.8 GHz / 2.6 GHz","",0,
@@ -227,7 +327,7 @@ menubox(
       "GPU(G3D)",
       "select <b>MAX</b> Mali-T88x frequence",
       "@apps",
-      "pr_gpu_max.prop",
+      "ap_gpu_max.prop",
 
       "546 MHz","",0,
       "600 MHz","",0,
@@ -245,7 +345,7 @@ menubox(
       "vdd CLOCKS uV",
       "total vdd undervolting <b>6.25mV * N</b>",
       "@apps",
-      "pr_vdd_uv.prop",
+      "ap_vdd_uv.prop",
 
       " ASV","<b>stock</b>",1,
       " -6.25 mV","",0,
@@ -263,7 +363,7 @@ menubox(
       "cooling shift",
       "shift temperature levels to this value",
       "@apps",
-      "pr_tmu_cool.prop",
+      "ap_tmu_cool.prop",
 
       "  0 degrees","<b>stock</b>",1,
       " +5 degrees","",0,
@@ -279,7 +379,7 @@ menubox(
       "dvfs reset",
       "period to reset dinamic freq (max/min) limitation",
       "@apps",
-      "pr_reset_freq.prop",
+      "ap_reset_freq.prop",
 
       " 5 sec","<b>default</b>",1,
       "10 sec","",0,
@@ -295,7 +395,7 @@ menubox(
       "F2FS support",
       "allow use f2fs partitions",
       "@apps",
-      "pr_fix_fs.prop",
+      "ap_fix_fs.prop",
 
       "disalow","<b>stock</b>",1,
       "allow","use patched init",0
@@ -325,9 +425,10 @@ install(
 #set Next text fo Finish
 ini_set("text_next", "Finish");
 
+#Save installation config
+resexec("scripts/save.sh");
+
 if getvar("retstatus")=="0" then
-      #Save installation config
-      resexec("scripts/save.sh");
 
       viewbox(
               "installation Completed",
@@ -343,4 +444,3 @@ else
            "@alert"
       );
 endif;
-

@@ -164,7 +164,7 @@ FUNC_BUILD_KERNEL()
 	echo ""
 }
 
-IMAGE_KITCHEN_DIR=$BUILD_KERNEL_DIR/AIK-Linux
+IMAGE_KITCHEN_DIR=$BUILD_KERNEL_DIR/AIK-Linux/"$MODEL"
 BOOT_IMAGE_TARGET=$IMAGE_KITCHEN_DIR/boot-"$MODEL".img
 
 FUNC_BUILD_BOOT_IMAGE()
@@ -236,6 +236,8 @@ FUNC_PACK_ZIP_FILE()
 	zip -gq $ZIP_NAME -r META-INF/ -x "*~"
 	zip -gq $ZIP_NAME -r system/ -x "*~" 
 	zip -gq $ZIP_NAME -r kernel/ -x "*~" 
+	zip -gq $ZIP_NAME -r magisk/ -x "*~" 
+	zip -gq $ZIP_NAME -r su/ -x "*~" 
 
 	if [ ! -f "$ZIP_FILE_TARGET" ]; then
 		exit -1
