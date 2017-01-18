@@ -1,5 +1,5 @@
 #!/bin/bash
-# Appolo kernel for Samsung Galaxy S7 build script by lyapota
+# Apollo kernel for Samsung Galaxy S7 build script by lyapota
 
 ##################### VARIANTS #####################
 #
@@ -33,7 +33,7 @@ BUILD_JOB_NUMBER=`grep processor /proc/cpuinfo|wc -l`
 export PATH=$(pwd)/bin:$PATH
 
 KERNEL_VERSION="1.0.0"
-KERNEL_NAME="-appolo"
+KERNEL_NAME="-apollo"
 export LOCALVERSION=${KERNEL_NAME}-v${KERNEL_VERSION}
 
 KERNEL_DEFCONFIG=exynos8890-lyapota_defconfig
@@ -208,7 +208,7 @@ FUNC_BUILD_BOOT_IMAGE()
 
 
 ZIP_FILE_DIR=$BUILD_KERNEL_DIR/BUILD
-ZIP_NAME=exynos8890-appolo-v$KERNEL_VERSION.zip
+ZIP_NAME=exynos8890-apollo-v$KERNEL_VERSION.zip
 ZIP_FILE_TARGET=$ZIP_FILE_DIR/$ZIP_NAME
 
 FUNC_PACK_ZIP_FILE()

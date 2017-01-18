@@ -1,6 +1,6 @@
 #!/sbin/sh
 # ========================================
-# script Appolo ROM
+# script Apollo ROM
 # ========================================
 # Created by lyapota
 

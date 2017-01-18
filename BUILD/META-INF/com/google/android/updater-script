@@ -1,5 +1,5 @@
 # ===========================================
-# updater-script for Appolo kernel 
+# updater-script for Apollo kernel 
 # ===========================================
 # Created by lyapota
 
@@ -31,6 +31,11 @@ show_progress(0.08, "-2000");
     ui_print("|-> remove blocking trastlet");
 	delete("/system/app/mcRegistry/ffffffffd0000000000000000000000a.tlbin");
 
+    ui_print("|-> clean build.prop");
+	run_program("sed", "-i", "/timaversion/d", "/system/build.prop");
+	run_program("sed", "-i", "/security.mdpp.mass/d", "/system/build.prop");
+	run_program("sed", "-i", "/ro.hardware.keystore/d", "/system/build.prop");
+
     ui_print("|-> extract kernel");
         package_extract_dir("kernel", "/tmp");
         set_metadata_recursive("/tmp", "uid", 0, "gid", 0, "dmode", 0755, "fmode", 0755);
@@ -55,17 +60,23 @@ ui_print("@install");
 
 ##Kernel image
     ui_print("@build kernel");
-      ui_print("|-> unpack");
-        run_program("/tmp/unpack.sh");
+    if is_substring("G935F", getprop("ro.boot.bootloader")) then
+        ui_print("|-> in work SM-G935F");
+        run_program("/tmp/unpack.sh", "1");
+    endif;
+    if is_substring("G930F", getprop("ro.boot.bootloader")) then
+        ui_print("|-> in work SM-G930F");
+        run_program("/tmp/unpack.sh", "2");
+    endif;
 
-      ui_print("|-> setup command line");
-        run_program("/tmp/cmdline.sh");
+    ui_print("|-> setup command line");
+      run_program("/tmp/cmdline.sh");
 
-      ui_print("|-> setup ramdisk");
-        run_program("/tmp/ramdisk.sh");
+    ui_print("|-> setup ramdisk");
+      run_program("/tmp/ramdisk.sh");
 
-      ui_print("|-> pack");
-        run_program("/tmp/pack.sh");
+    ui_print("|-> pack");
+      run_program("/tmp/pack.sh");
 
     ui_print("@flash kernel");
         run_program("/tmp/busybox", "dd", "if=/tmp/boot.img", "of=/dev/block/platform/155a0000.ufs/by-name/BOOT");

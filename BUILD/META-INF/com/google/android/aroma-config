@@ -95,11 +95,11 @@
 # Initializing Rom Information
 #
 
-ini_set("rom_name",             "Appolo");
+ini_set("rom_name",             "Apollo");
 ini_set("rom_version",          "1.0.0");
 ini_set("rom_author",           "lyapota");
 ini_set("rom_device",           "Samsung SM-G935F/G930F");
-ini_set("rom_date",             "18 January 2017");
+ini_set("rom_date",             "19 January 2017");
 
 fontresload( "0", "ttf/DroidSans.ttf", "12" );
 fontresload( "1", "ttf/DroidSans.ttf", "18" );
@@ -206,7 +206,7 @@ endif;
     #--------[ Initial Value = 0: Unselected, 1: Selected, 2: Group Item, 3: Not Visible ]---------#
 
     "AROMA",       "",                                               2, #-- item.1
-    "no story",  "remove user apps and data, excluding data/media",  0 #-- item.1.1
+    "no story",  "don`t initialize aroma options with saved values",  1 #-- item.1.1
   );
 
   if prop("aroma.prop","item.1.1")=="0" then
@@ -249,7 +249,7 @@ endif;
 
     selectbox(
       "LITTLE(A53) CLASTER",
-      "select <b>MIN</b> APPOLO frequence",
+      "select <b>MIN</b> APOLLO frequence",
       "@apps",
       "ap_little_min.prop",
 
@@ -262,7 +262,7 @@ endif;
 
     selectbox(
       "LITTLE(A53)",
-      "select <b>MAX</b> APPOLO frequence",
+      "select <b>MAX</b> APOLLO frequence",
       "@apps",
       "ap_little_max.prop",
 

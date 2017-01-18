@@ -1,6 +1,6 @@
 #!/sbin/sh
 # ========================================
-# script Appolo kernels
+# script Apollo kernels
 # ========================================
 # Created by lyapota
 
