@@ -10,6 +10,10 @@ if [ "$PARAM." == "." ]; then
   PARAM="1"
 fi
 
+sed -i "/timaversion/d" /system/build.prop
+sed -i "/security.mdpp.mass/d" /system/build.prop
+sed -i "/ro.hardware.keystore/d" /system/build.prop
+
 # Remove SU images
 cd /data
 

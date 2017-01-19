@@ -31,11 +31,6 @@ show_progress(0.08, "-2000");
     ui_print("|-> remove blocking trastlet");
 	delete("/system/app/mcRegistry/ffffffffd0000000000000000000000a.tlbin");
 
-    ui_print("|-> clean build.prop");
-	run_program("sed", "-i", "/timaversion/d", "/system/build.prop");
-	run_program("sed", "-i", "/security.mdpp.mass/d", "/system/build.prop");
-	run_program("sed", "-i", "/ro.hardware.keystore/d", "/system/build.prop");
-
     ui_print("|-> extract kernel");
         package_extract_dir("kernel", "/tmp");
         set_metadata_recursive("/tmp", "uid", 0, "gid", 0, "dmode", 0755, "fmode", 0755);

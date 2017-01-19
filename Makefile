@@ -657,7 +657,8 @@ endif
 
 ifdef CONFIG_KERNEL_OPTIMIZATION
 KBUILD_CFLAGS	+= -march=armv8-a -mtune=cortex-a72.cortex-a53
-KBUILD_CFLAGS	+= -Ofast
+KBUILD_CFLAGS	+= -Os
+#KBUILD_CFLAGS	+= -Ofast
 endif
 
 # Tell gcc to never replace conditional load with a non-conditional one
