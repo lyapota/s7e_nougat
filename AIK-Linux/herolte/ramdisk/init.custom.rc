@@ -1,0 +1,22 @@
+#
+# start custom kernel script
+#
+
+on boot
+    exec u:r:supersu:s0 root root -- /sbin/kernel_init.sh supersu
+    start kinit_su
+
+# Services
+# launch post-fs-data script
+service kinit_su /sbin/kernel_init.sh su
+    user root
+    seclabel u:r:su:s0
+    oneshot
+    disabled
+
+# launch late_start script
+service kinit /sbin/kernel_init.sh service
+    class late_start
+    user root
+    seclabel u:r:init:s0
+    oneshot

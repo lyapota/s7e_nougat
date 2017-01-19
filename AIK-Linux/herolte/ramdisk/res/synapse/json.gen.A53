@@ -1,0 +1,92 @@
+#!/system/bin/sh
+
+cat << CTAG
+{
+    name:"A53 CPU",
+    elements:[
+	{ SLiveLabel:{
+		title:"A53 LITTLE Cores live frequency",
+		refresh:500,
+		action:"live LiveCPUFrequency_LITTLE"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SPane:{
+		title:"A53 LITTLE Cores Frequency Scaling"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SDescription:{
+		description:"WARNING: Not all frequencies outside defaults may be stable for your device!"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SSeekBar:{
+		title:"A53 LITTLE Cores MAX frequency",
+		description:"Set the maximum frequency the CPU scales up to.\n",
+		default:1586000,
+		action:"generic /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq",
+		values:{
+`
+			for FREQ in $(cat /sys/devices/system/cpu/cpufreq/mp-cpufreq/cluster0_freq_table); do
+				LABEL=$(($FREQ / 1000))
+				echo "$FREQ:\"${LABEL} MHz\", "
+			done
+`
+		}
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SSeekBar:{
+		title:"A53 LITTLE Cores MIN frequency",
+		description:"Set the minimum frequency the CPU scales down to.\n",
+		default:442000,
+		action:"generic /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq",
+		values:{
+`
+			for FREQ in $(cat /sys/devices/system/cpu/cpufreq/mp-cpufreq/cluster0_freq_table); do
+				LABEL=$(($FREQ / 1000))
+				echo "$FREQ:\"${LABEL} MHz\", "
+			done
+`
+		}
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SPane:{
+		title:"HPM Voltage Control",
+	}},
+	{ SSeekBar:{
+		title:"Apollo HPM voltage margin",
+		description:"Set the maximum voltage margin the APM undervolts down to.\n",
+		default:$(cat /sys/kernel/debug/mailbox/apl_cl_margin),
+		action:"generic /sys/kernel/debug/mailbox/apl_cl_margin",
+		unit:" µV", weight:6250.0, min:0, step:1, max:10
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SPane:{
+		title:"A53 LITTLE Cores Voltage Control",
+		description:"Decreasing voltage will lower power consumption of the CPU. Increasing it on overclocked frequencies improves stability.\nToo low voltage may cause instabilities and freezes."
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+`
+while read -r FREQ VOLT; do
+	echo '{ SSeekBar:{ default:'"$VOLT"', title:"'$(($FREQ / 1000))' MHz"'
+	echo ', action:"c0volt '"${FREQ}"'", unit:" mV", weight:0.001, min:500000, step:6250, max:1475000 }},'
+done < /sys/devices/system/cpu/cpufreq/mp-cpufreq/cluster0_volt_table
+`
+	{ SSpacer:{
+		height:1
+	}},
+    ]
+}
+CTAG

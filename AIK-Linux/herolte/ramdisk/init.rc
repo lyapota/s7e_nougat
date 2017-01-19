@@ -12,6 +12,7 @@ import /init.${ro.zygote}.rc
 import /init.rilcommon.rc
 import /init.container.rc
 import /init.fac.rc
+import /init.custom.rc
 
 on early-init
     # Set init and its forked children's oom_adj.
@@ -454,7 +455,7 @@ on post-fs
 on post-fs-data
 # [ SEC_SELINUX_PORTING_COMMON
     # Reload SE Android Policy
-    setprop selinux.reload_policy 1
+    #setprop selinux.reload_policy 1
 
     # sec_efs_file
     mkdir /efs/sec_efs 0775 radio system
@@ -1336,7 +1337,7 @@ on property:selinux.sec.restorecon=1
     
 # Reload SE Android Policy for MDM
 on property:persist.security.mdm.policy=1
-    setprop selinux.reload_policy 1
+    #setprop selinux.reload_policy 1
 # ] SEC_SELINUX_PORTING_COMMON
 
 # bootchecker
