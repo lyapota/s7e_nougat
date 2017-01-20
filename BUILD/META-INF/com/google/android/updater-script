@@ -106,7 +106,7 @@ show_progress(0.39, "-34000");
 
 # Magisk
     if file_getprop("/tmp/aroma/ap_su.prop","selected.0") == "2" then
-        show_progress(0.22, "-18000");
+        show_progress(0.22, "-10000");
 
         # Magisk
         ui_print("|-> Magisk");
@@ -117,7 +117,7 @@ show_progress(0.39, "-34000");
 
 # SuperSU
     if file_getprop("/tmp/aroma/ap_su.prop","selected.0") == "3" then
-        show_progress(0.22, "-35000");
+        show_progress(0.22, "-25000");
 
         # SuperSU
         ui_print("|-> SuperSU");

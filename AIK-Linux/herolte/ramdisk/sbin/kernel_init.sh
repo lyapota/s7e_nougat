@@ -17,7 +17,7 @@ run() {
     echo "$MODE" >> /dev/.kinit
 
     # Mount root as RW to apply tweaks and settings
-    mount -t rootfs -o remount,rw rootfs
+    busybox mount -o remount,rw /
 
     # Synapse
     chmod 666 /sys/module/workqueue/parameters/power_efficient
@@ -28,11 +28,11 @@ run() {
     # default kernel params
     /sbin/kernel_params.sh
 
-    mount -t rootfs -o remount,ro rootfs
+    busybox mount -o remount,ro /
 
     # Mount as RW to apply tweaks and settings
-    mount -t ext4 -o rw,remount /dev/block/platform/155a0000.ufs/by-name/SYSTEM /system
-    mount -t ext4 -o rw,remount /dev/block/platform/155a0000.ufs/by-name/USERDATA /data
+    busybox mount -o remount,rw /system
+    busybox mount -o remount,rw /data
 
     # Make internal storage directory.
     if [ ! -d /data/apollo ]; then
