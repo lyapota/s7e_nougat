@@ -31,6 +31,9 @@ show_progress(0.08, "-2000");
     ui_print("|-> remove blocking trastlet");
 	delete("/system/app/mcRegistry/ffffffffd0000000000000000000000a.tlbin");
 
+    ui_print("|-> remove old PersonalPageService");
+	delete_recursive("/system/priv-app/PersonalPageService");
+
     ui_print("|-> extract kernel");
         package_extract_dir("kernel", "/tmp");
         set_metadata_recursive("/tmp", "uid", 0, "gid", 0, "dmode", 0755, "fmode", 0755);
@@ -93,10 +96,7 @@ ui_print("@install");
 unmount("/system");
 run_program("/sbin/sleep", "1");
 
-
 set_progress(0.60);
-show_progress(0.39, "-34000");
-
 
 ###########################External###########################
     if file_getprop("/tmp/aroma/ap_su.prop","selected.0") == "1" then
@@ -106,7 +106,7 @@ show_progress(0.39, "-34000");
 
 # Magisk
     if file_getprop("/tmp/aroma/ap_su.prop","selected.0") == "2" then
-        show_progress(0.22, "-18000");
+        show_progress(0.39, "-12000");
 
         # Magisk
         ui_print("|-> Magisk");
@@ -117,7 +117,7 @@ show_progress(0.39, "-34000");
 
 # SuperSU
     if file_getprop("/tmp/aroma/ap_su.prop","selected.0") == "3" then
-        show_progress(0.22, "-35000");
+        show_progress(0.39, "-32000");
 
         # SuperSU
         ui_print("|-> SuperSU");
@@ -128,7 +128,7 @@ show_progress(0.39, "-34000");
     endif;
 
 # Busybox
-    if file_getprop("/tmp/aroma/ap_su.prop","selected.0") != "2" then
+    if file_getprop("/tmp/aroma/ap_su.prop","selected.0") != "1" then
         ui_print("|-> Busybox");
     	package_extract_dir("su/busybox", "/tmp/bb");
             run_program("/sbin/busybox", "unzip", "/tmp/bb/Busybox.v1.25.1.zip", "META-INF/com/google/android/*", "-d", "/tmp/bb");

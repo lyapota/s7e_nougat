@@ -45,18 +45,6 @@ cat << CTAG
 	{ SSpacer:{
 		height:1
 	}},
-	{ SPane:{
-		title:"Interactive Governor Tuning",
-		description:"WARNING: Set Interactive governor BEFORE changing profiles to prevent display errors !"
-	}},
-	{ SSpacer:{
-		height:1
-	}},
-	{ SLiveLabel:{
-		title:"Interactive Load",
-		refresh:500,
-		action:"live Live_interactive"
-	}},
 	{ SOptionList:{
 		title:"A53 Profile",
 		description:"Select your profile for CPU Interactive governor.\n",

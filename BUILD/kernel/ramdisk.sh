@@ -6,6 +6,7 @@
 
 DIR_SEL=/tmp/aroma
 FILE_SCRIPT=/tmp/AIK/ramdisk/sbin/kernel_params.sh
+FSTAB=/fstab.samsungexynos8890
 
 get_sel()
 {
@@ -147,4 +148,13 @@ echo -e "echo \"$big_min\" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_fr
 echo -e "echo \"$big_max\" > /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq;" >> $FILE_SCRIPT;
 echo -e "echo \"$gpu_max\" > /sys/devices/14ac0000.mali/max_clock;" >> $FILE_SCRIPT;
 cat $FILE_SCRIPT;
+
+
+if [ -e $DIR_SEL/ap_su.prop ]; then
+    val1=`get_sel ap_su.prop`
+    if [ ! "$val1" -eq "1" ]; then
+        echo "Set rw /system in $FSTAB..."
+        sed -i "s/ro,/rw,/g" "$FSTAB"
+    fi
+fi
 
