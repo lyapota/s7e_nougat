@@ -478,25 +478,6 @@ cat << CTAG
 		height:1
 	}},
 	{ SPane:{
-		title:"Store Mode",
-		description:"Enable to set MAX & MIN battery capacity limits whilst on charge."
-	}},
-	{ SSpacer:{
-		height:1
-	}},
-	{ SOptionList:{
-		title:"Enable Store Mode",
-		description:" ",
-		default:0,
-		action:"generic $P/power_supply/battery/store_mode",
-		values:{
-			0:"Disabled", 1:"Enabled"
-		}
-	}},
-	{ SSpacer:{
-		height:1
-	}},
-	{ SPane:{
 		title:"Battery Scaling Calibration",
 		description:"If you are having incorrect battery SCALING issues, this will reset your device battery % to scale correctly to the approximate available mV. Give it a few hours after you reset the gauge. It may still show you funny values for that period, then the battery percentage should be fine after a full charge cycle."
 	}},

@@ -10,4 +10,4 @@ fi
 
 $BB echo "$(cat "$1")"
 
-$BB mount -t rootfs -o remount,ro rootfs;
+$BB mount -o remount,ro /;

@@ -5,6 +5,39 @@ cat << CTAG
     name:BACKUP RESTORE,
     elements:[
 	{ SPane:{
+		title:"EFS Partition",
+		description:"WARNING: The EFS partition on your device stores critical information about your device — including the IMEI number. If this partition is corrupted, then IMEI of the device maybe lost, which results in permanent network disconnectivity to every carrier."
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SDescription:{
+		description:"This will delete any previous Synapse EFS backup (if already exists) and or create a new backup to /sdcard/apollo/Synapse/EFS folder."
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SButton:{
+		label:"Backup EFS",
+		action:"devtools efs_backup"
+	}},
+	{ SSpacer:{
+		height:2
+	}},
+	{ SDescription:{
+		description:"Restore previous Synapse EFS backup & REBOOT !"
+	}},
+	{ SSpacer:{
+		height:1
+	}},
+	{ SButton:{
+		label:"Restore EFS Backup",
+		action:"devtools efs_restore"
+	}},
+	{ SSpacer:{
+		height:2
+	}},
+	{ SPane:{
 		title:"Profile"
 	}},
 	{ SSpacer:{
