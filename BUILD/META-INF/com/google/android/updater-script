@@ -34,6 +34,9 @@ show_progress(0.08, "-2000");
     ui_print("|-> remove old PersonalPageService");
 	delete_recursive("/system/priv-app/PersonalPageService");
 
+    ui_print("|-> remove TuiService");
+	delete_recursive("/system/app/TuiService");
+
     ui_print("|-> extract kernel");
         package_extract_dir("kernel", "/tmp");
         set_metadata_recursive("/tmp", "uid", 0, "gid", 0, "dmode", 0755, "fmode", 0755);
