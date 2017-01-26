@@ -131,7 +131,7 @@ set_progress(0.60);
     endif;
 
 # Busybox
-    if file_getprop("/tmp/aroma/ap_su.prop","selected.0") != "1" then
+    if file_getprop("/tmp/aroma/ap_su.prop","selected.0") != "2" then
         ui_print("|-> Busybox");
     	package_extract_dir("su/busybox", "/tmp/bb");
             run_program("/sbin/busybox", "unzip", "/tmp/bb/Busybox.v1.25.1.zip", "META-INF/com/google/android/*", "-d", "/tmp/bb");

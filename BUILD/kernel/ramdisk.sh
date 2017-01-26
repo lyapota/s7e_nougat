@@ -152,9 +152,8 @@ cat $FILE_SCRIPT;
 
 if [ -e $DIR_SEL/ap_su.prop ]; then
     val1=`get_sel ap_su.prop`
-    if [ ! "$val1" -eq "1" ]; then
+    if [ "$val1" -ne "1" ]; then
         echo "Set rw /system in $FSTAB..."
         sed -i "s/ro,/rw,/g" "$FSTAB"
     fi
 fi
-
