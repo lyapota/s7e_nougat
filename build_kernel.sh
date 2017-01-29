@@ -25,14 +25,13 @@ BUILD_ROOT_DIR=$BUILD_KERNEL_DIR/..
 BUILD_KERNEL_OUT_DIR=$BUILD_ROOT_DIR/kernel_out/KERNEL_OBJ-"$MODEL"
 
 BUILD_CROSS_COMPILE=/home/lyapota/kernel/toolchain/aarch64-linux-gnu-5.3/bin/aarch64-
-# BUILD_CROSS_COMPILE=/home/lyapota/kernel/toolchain/linaro-64/bin/aarch64-linux-android-
 # BUILD_CROSS_COMPILE=/home/lyapota/kernel/toolchain/aarch64-sabermod-7.0/bin/aarch64-
 
 BUILD_JOB_NUMBER=`grep processor /proc/cpuinfo|wc -l`
 
 export PATH=$(pwd)/bin:$PATH
 
-KERNEL_VERSION="1.1.0"
+KERNEL_VERSION="1.2.0"
 KERNEL_NAME="-apollo"
 export LOCALVERSION=${KERNEL_NAME}-v${KERNEL_VERSION}
 
