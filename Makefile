@@ -409,15 +409,10 @@ LINUXINCLUDE    := \
 KBUILD_CPPFLAGS := -D__KERNEL__
 
 KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
-		   -fno-strict-aliasing -fno-common -fno-delete-null-pointer-checks -Wno-unused-value -Wno-maybe-uninitialized \
-		   -Werror-implicit-function-declaration -Wno-uninitialized \
-		   -Wno-error=unused-variable -Wno-error=unused-function \
-		   -Wno-discarded-array-qualifiers -Wno-logical-not-parentheses -Wno-array-bounds -Wno-switch -Wno-unused-variable \
-		   -Wno-switch-bool \
-		   -Wno-switch-enum \
+		   -fno-strict-aliasing -fno-common \
+		   -Werror-implicit-function-declaration \
 		   -Wno-format-security \
-		   -std=gnu89 \
-		   -Wno-memset-transposed-args
+		   -std=gnu89
 
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
@@ -657,7 +652,6 @@ endif
 
 ifdef CONFIG_KERNEL_OPTIMIZATION
 KBUILD_CFLAGS	+= -march=armv8-a -mtune=cortex-a72.cortex-a53
-KBUILD_CFLAGS	+= -Ofast
 endif
 
 # Tell gcc to never replace conditional load with a non-conditional one
@@ -730,7 +724,7 @@ else
 
 # This warning generated too much noise in a regular build.
 # Use make W=1 to enable this warning (see scripts/Makefile.build)
-KBUILD_CFLAGS += $(call cc-disable-warning, unused-but-set-variable, unused-const-variable)
+KBUILD_CFLAGS += $(call cc-disable-warning, unused-but-set-variable)
 endif
 
 ifdef CONFIG_FRAME_POINTER
