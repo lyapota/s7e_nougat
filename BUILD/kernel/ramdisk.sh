@@ -6,7 +6,7 @@
 
 DIR_SEL=/tmp/aroma
 FILE_SCRIPT=/tmp/AIK/ramdisk/sbin/kernel_params.sh
-FSTAB=/fstab.samsungexynos8890
+FSTAB=/tmp/AIK/ramdisk/fstab.samsungexynos8890
 
 get_sel()
 {
