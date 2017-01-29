@@ -409,10 +409,15 @@ LINUXINCLUDE    := \
 KBUILD_CPPFLAGS := -D__KERNEL__
 
 KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
-		   -fno-strict-aliasing -fno-common \
-		   -Werror-implicit-function-declaration \
+		   -fno-strict-aliasing -fno-common -fno-delete-null-pointer-checks -Wno-unused-value -Wno-maybe-uninitialized \
+		   -Werror-implicit-function-declaration -Wno-uninitialized \
+		   -Wno-error=unused-variable -Wno-error=unused-function \
+		   -Wno-discarded-array-qualifiers -Wno-logical-not-parentheses -Wno-array-bounds -Wno-switch -Wno-unused-variable \
+		   -Wno-switch-bool \
+		   -Wno-switch-enum \
 		   -Wno-format-security \
-		   -std=gnu89
+		   -std=gnu89 \
+		   -Wno-memset-transposed-args
 
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
@@ -724,7 +729,7 @@ else
 
 # This warning generated too much noise in a regular build.
 # Use make W=1 to enable this warning (see scripts/Makefile.build)
-KBUILD_CFLAGS += $(call cc-disable-warning, unused-but-set-variable)
+KBUILD_CFLAGS += $(call cc-disable-warning, unused-but-set-variable, unused-const-variable)
 endif
 
 ifdef CONFIG_FRAME_POINTER
