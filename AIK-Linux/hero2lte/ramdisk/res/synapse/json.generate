@@ -19,6 +19,7 @@ cat << CTAG
 		`. /res/synapse/json.gen.advanced`,
 		`. /res/synapse/json.gen.doze`,
 		`. /res/synapse/json.gen.wakelocks`,
+		`. /res/synapse/json.gen.led`,
 		`. /res/synapse/json.gen.screen`,
 		`. /res/synapse/json.gen.network`,
 		`. /res/synapse/json.gen.fs`,
