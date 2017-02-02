@@ -31,7 +31,7 @@ BUILD_JOB_NUMBER=`grep processor /proc/cpuinfo|wc -l`
 
 export PATH=$(pwd)/bin:$PATH
 
-KERNEL_VERSION="7.2.2"
+KERNEL_VERSION="7.3.0"
 KERNEL_NAME="-helios"
 export LOCALVERSION=${KERNEL_NAME}-v${KERNEL_VERSION}
 
