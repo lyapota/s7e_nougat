@@ -10,11 +10,19 @@ FSTAB=/tmp/AIK/ramdisk/fstab.samsungexynos8890
 
 get_sel()
 {
-  sel_file=$DIR_SEL/$1
-  sel_value=`cat $sel_file | cut -d '=' -f2`
-  echo $sel_value
+  SEL_FILE=$DIR_SEL/$1
+  SEL_VALUE=`cat $SEL_FILE | cut -d '=' -f2`
+  echo $SEL_VALUE
 }
 
+get_item()
+{
+  SEL_FILE=$DIR_SEL/$1
+  GROUP=$2
+  ITEM=$3
+  SEL_VALUE=`cat $SEL_FILE | grep item.${GROUP}.${ITEM}= | cut -d '=' -f2`
+  echo $SEL_VALUE
+}
 
 if [ ! -e $DIR_SEL/ap_little_min.prop ]; then
 	little_min="0"
@@ -150,9 +158,9 @@ echo -e "echo \"$gpu_max\" > /sys/devices/14ac0000.mali/max_clock;" >> $FILE_SCR
 cat $FILE_SCRIPT;
 
 
-if [ -e $DIR_SEL/ap_su.prop ]; then
-    val1=`get_sel ap_su.prop`
-    if [ "$val1" -ne "1" ]; then
+if [ -e $DIR_SEL/ap_aroma.prop ]; then
+    val1=`get_item ap_aroma.prop 2 1`
+    if [ "$val1" -eq "1" ]; then
         echo "Set rw /system in $FSTAB..."
         sed -i "s/ro,/rw,/g" "$FSTAB"
     fi

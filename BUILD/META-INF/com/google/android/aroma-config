@@ -99,7 +99,7 @@ ini_set("rom_name",             "Apollo");
 ini_set("rom_version",          "1.2.0");
 ini_set("rom_author",           "lyapota");
 ini_set("rom_device",           "Samsung SM-G935F/G930F");
-ini_set("rom_date",             "01 February 2017");
+ini_set("rom_date",             "03 February 2017");
 
 fontresload( "0", "ttf/DroidSans.ttf", "12" );
 fontresload( "1", "ttf/DroidSans.ttf", "18" );
@@ -197,19 +197,21 @@ endif;
     # Icon
     "@wipe",
 
-    # Will be saved in /tmp/aroma/aroma.prop
-    "aroma.prop",
+    # Will be saved in /tmp/aroma/ap_aroma.prop
+    "ap_aroma.prop",
 
     #----------[ Checkbox Without Group ]---------------#
     # TITLE            |  SUBTITLE       | Initial Value #
     #------------------+-----------------+---------------#
     #--------[ Initial Value = 0: Unselected, 1: Selected, 2: Group Item, 3: Not Visible ]---------#
 
-    "AROMA",       "",                                               2, #-- item.1
-    "no story",  "don`t initialize aroma options with saved values",  1 #-- item.1.1
+    "AROMA",     "",                                                  2, #-- item.1
+    "no story",  "don`t initialize aroma options with saved values",  1, #-- item.1.1
+    "SYSTEM",     "",                                                 2, #-- item.2
+    "system (RW)","mount /system writeble at boot",                   0 #-- item.2.1
   );
 
-  if prop("aroma.prop","item.1.1")=="0" then
+  if prop("ap_aroma.prop","item.1.1")=="0" then
     #Restore prev installation config
     resexec("scripts/restore.sh");
   endif;
