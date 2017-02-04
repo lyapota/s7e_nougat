@@ -369,19 +369,6 @@ int ecryptfs_propagate_fmpinfo(struct inode *inode, unsigned int flag)
 }
 #endif
 
-static int ecryptfs_mmap(struct file *file, struct vm_area_struct *vma)
-{
-	struct dentry *dentry = ecryptfs_dentry_to_lower(file->f_path.dentry);
-	/*
-	 * Don't allow mmap on top of file systems that don't support it
-	 * natively.  If FILESYSTEM_MAX_STACK_DEPTH > 2 or ecryptfs
-	 * allows recursive mounting, this will need to be extended.
-	 */
-	if (!dentry->d_inode->i_fop->mmap)
-		return -ENODEV;
-	return generic_file_mmap(file, vma);
-}
-
 /**
  * ecryptfs_open
  * @inode: inode speciying file to open
