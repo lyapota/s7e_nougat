@@ -413,7 +413,7 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-strict-aliasing -fno-common \
 		   -Werror-implicit-function-declaration \
 		   -Wno-format-security -Wno-logical-not-parentheses \
-		   -mtune=cortex-a72.cortex-a53 \
+		   -mtune=cortex-a72.cortex-a53 -Wno-misleading-indentation\
 		   -std=gnu89
 
 KBUILD_AFLAGS_KERNEL :=

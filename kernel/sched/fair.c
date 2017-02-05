@@ -2740,15 +2740,6 @@ static struct {
 } hmp_dwcompensation;
 #endif
 
-/* Global switch between power-aware migrations and classical GTS. */
-static unsigned int hmp_power_migration = 1;
-
-/* Performance threshold for guaranteeing an up migration. */
-static unsigned int hmp_up_perf_threshold = 597;
-
-/* Capacity floor for checking cluster perf and efficiency. */
-static unsigned int hmp_up_power_threshold = 341;
-
 /*
  * Maximum total capacity difference in load scale percentage to enact scheduler power migration.
  * 
