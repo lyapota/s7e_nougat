@@ -24,8 +24,9 @@ BUILD_KERNEL_DIR=$BUILD_WHERE
 BUILD_ROOT_DIR=$BUILD_KERNEL_DIR/..
 BUILD_KERNEL_OUT_DIR=$BUILD_ROOT_DIR/kernel_out/KERNEL_OBJ-"$MODEL"
 
-BUILD_CROSS_COMPILE=/home/lyapota/kernel/toolchain/aarch64-linux-gnu-5.3/bin/aarch64-
-# BUILD_CROSS_COMPILE=/home/lyapota/kernel/toolchain/aarch64-sabermod-7.0/bin/aarch64-
+# BUILD_CROSS_COMPILE=/home/lyapota/kernel/toolchain/aarch64-linux-gnu-5.3/bin/aarch64-
+# BUILD_CROSS_COMPILE=/home/lyapota/kernel/toolchain/aarch64-linux-gnu-5.3.1/bin/aarch64-linux-gnu-
+BUILD_CROSS_COMPILE=/home/lyapota/kernel/toolchain/aarch64-linux-gnu-6.2.1/bin/aarch64-linux-gnu-
 
 BUILD_JOB_NUMBER=`grep processor /proc/cpuinfo|wc -l`
 
