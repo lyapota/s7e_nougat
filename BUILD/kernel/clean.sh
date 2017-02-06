@@ -18,7 +18,9 @@ sed -i /ro.hardware.keystore/d /system/build.prop
 cd /data
 
 if [ $PARAM == "3" ] || [ $PARAM == "1" ]; then
-  rm -rf /data/app/com.topjohnwu.magisk-*
+  rm -rf /data/app/com.topjohnwu.magisk-1
+  rm -rf /data/app/com.topjohnwu.magisk-2
+  rm -rf /data/app/com.topjohnwu.magisk-3
   rm -rf /data/data/com.topjohnwu.magisk
 
   rm -rf /data/app/me.phh.superuser-*
