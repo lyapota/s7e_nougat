@@ -1551,16 +1551,10 @@ static int init_dimming(struct dsim_device *dsim, u8 * mtp, u8 * hbm)
 				panel->br_tbl = (unsigned int *)br_tbl_360;
 			}
 			else {
-#ifdef CONFIG_PANEL_SMART_DIMMING
-				dsim_info("%s init dimming info for S6E3HF4 WQHD\n", __func__);
-				diminfo = (void *)dimming_info_smart;
-				panel->br_tbl = (unsigned int *)br_tbl_smart;
-#else
 				diminfo = (void *)dimming_info_HF4_A2_da_final;
 				dsim_info("%s init dimming info for HF4 A2 panel dualization\n", __func__);
 				panel->inter_aor_tbl = (unsigned char *)hero2_inter_aor_tbl_a2_final;
 				panel->br_tbl = (unsigned int *)hero2_br_tbl_420_a2_final;
-#endif
 				memcpy(panel->irc_table, irc_table_HF4_A2_final, sizeof(irc_table_HF4_A2_final));
 			}
 		}
@@ -1571,6 +1565,12 @@ static int init_dimming(struct dsim_device *dsim, u8 * mtp, u8 * hbm)
 		panel->br_tbl = (unsigned int *)br_tbl_360;
 		break;
 	}
+
+#ifdef CONFIG_PANEL_SMART_DIMMING
+	dsim_info("%s init smart dimming table\n", __func__);
+	diminfo = (void *)dimming_info_smart;
+	panel->br_tbl = (unsigned int *)br_tbl_smart;
+#endif
 
 	panel->dim_data= (void *)dimming;
 	panel->dim_info = (void *)diminfo;
