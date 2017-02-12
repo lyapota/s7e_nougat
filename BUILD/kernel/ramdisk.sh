@@ -158,8 +158,8 @@ echo -e "echo \"$gpu_max\" > /sys/devices/14ac0000.mali/max_clock;" >> $FILE_SCR
 cat $FILE_SCRIPT;
 
 
-if [ -e $DIR_SEL/ap_aroma.prop ]; then
-    val1=`get_item ap_aroma.prop 2 1`
+if [ -e $DIR_SEL/aroma.prop ]; then
+    val1=`get_item aroma.prop 2 1`
     if [ "$val1" -eq "1" ]; then
         echo "Set rw /system in $FSTAB..."
         sed -i "s/ro,/rw,/g" "$FSTAB"

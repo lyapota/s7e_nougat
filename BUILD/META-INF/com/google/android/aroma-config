@@ -197,8 +197,8 @@ endif;
     # Icon
     "@wipe",
 
-    # Will be saved in /tmp/aroma/ap_aroma.prop
-    "ap_aroma.prop",
+    # Will be saved in /tmp/aroma/aroma.prop
+    "aroma.prop",
 
     #----------[ Checkbox Without Group ]---------------#
     # TITLE            |  SUBTITLE       | Initial Value #
@@ -211,7 +211,7 @@ endif;
     "system (RW)","mount /system writeble at boot",                   0 #-- item.2.1
   );
 
-  if prop("ap_aroma.prop","item.1.1")=="0" then
+  if prop("aroma.prop","item.1.1")=="0" then
     #Restore prev installation config
     resexec("scripts/restore.sh");
   endif;
