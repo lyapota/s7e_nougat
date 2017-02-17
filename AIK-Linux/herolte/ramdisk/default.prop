@@ -31,6 +31,6 @@ debug.atrace.tags.enableflags=0
 #
 # BOOTIMAGE_BUILD_PROPERTIES
 #
-ro.bootimage.build.date=Mon Jan 30 16:20:17 KST 2017
-ro.bootimage.build.date.utc=1485760817
-ro.bootimage.build.fingerprint=samsung/heroltexx/herolte:7.0/NRD90M/G930FXXU1DQB3:user/test-keys
+ro.bootimage.build.date=Thu Feb 2 15:56:13 KST 2017
+ro.bootimage.build.date.utc=1486018573
+ro.bootimage.build.fingerprint=samsung/heroltexx/herolte:7.0/NRD90M/G930FXXU1DQB7:user/test-keys
