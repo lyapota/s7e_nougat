@@ -1,0 +1,193 @@
+ini_set("rom_name",             "Helios kernel");
+ini_set("rom_version",          "7.5.3");
+ini_set("rom_author",           "lyapota");
+ini_set("rom_device",           "Samsung SM-G935F/G930F");
+ini_set("rom_date",             "24 February 2017");
+
+fontresload( "0", "ttf/DroidSans.ttf", "12" );
+fontresload( "1", "ttf/DroidSans.ttf", "18" );
+
+# Show Simple Splash
+
+splash(4000, "lyapota");
+
+theme("miui4");
+
+###################################################################################################################
+#
+# STEP 1 - SHOW INFORMATION
+#
+viewbox(
+  #-- Title
+  #-- Text
+    "Welcome",
+    "\n\n\n\n\n"+
+    "You're about to flash:\n"+
+    ini_get("rom_name") + " for " + ini_get("rom_device") +  "\n\n\n"+
+    "  VERSION\t: <b><#selectbg_g>"+ini_get("rom_version")+"</#></b>\n"+
+    "  UPDATED\t: <b><#selectbg_g>"+ini_get("rom_date")+"</#></b>\n\n\n"+
+    "Press <b>Next</b> to continue the installation...",
+  #-- Icon
+    "@welcome"
+);
+
+###################################################################################################################
+#
+# STEP 2 - TERMS OF USE AND REQUIREMENTS
+#
+agreebox(
+  #-- Title
+    "Important notes!",
+
+  #-- Subtitle / Description
+    "",
+
+  #-- Icon
+    "@agreement",
+
+  #-- Text Content ( Read from <AROMA Resource Dir>/read_me.txt )
+    resread("gnu.txt"),
+
+  #-- Checkbox Text
+    "I agree with these Terms of Use.",
+
+  #-- Unchecked Alert Message
+    "You need to agree with the Terms of Use..."
+);
+  
+if
+  confirm(
+    # Arg 1
+    "Requirements!",
+  
+    # Arg 2
+    resread("read_me.txt"),
+
+    # Arg 3
+    "@confirm",
+
+    # Arg 4
+    "Yes",
+
+    # Arg 5
+    "No"
+
+  ) == "no"
+
+then
+  exit();
+endif;
+
+###################################################################################################################
+#
+# STEP 3 - SELECT PLATFORM
+#
+
+
+###################################################################################################################
+#
+# STEP 4 - SETUP INSTALLATION
+#
+
+########################Wipe method###########################
+  checkbox(
+    # Title
+    "Wipe method",
+
+    # Sub Title
+    "",
+
+    # Icon
+    "@wipe",
+
+    # Will be saved in /tmp/aroma/aroma.prop
+    "aroma.prop",
+
+    #----------[ Checkbox Without Group ]---------------#
+    # TITLE            |  SUBTITLE       | Initial Value #
+    #------------------+-----------------+---------------#
+    #--------[ Initial Value = 0: Unselected, 1: Selected, 2: Group Item, 3: Not Visible ]---------#
+
+    "AROMA",     "",                                                  2, #-- item.1
+    "no story",  "don`t initialize aroma options with saved values",  1, #-- item.1.1
+    "SYSTEM",     "",                                                 2, #-- item.2
+    "system (RW)","mount /system writeble at boot",                   0 #-- item.2.1
+  );
+
+  if prop("aroma.prop","item.1.1")=="0" then
+    #Restore prev installation config
+    resexec("scripts/restore.sh");
+  endif;
+
+
+  #########
+  ## SU
+  #########
+
+  selectbox(
+    #-- Title
+    "ROOT method",
+    
+    #-- Sub Title
+    "Customize how to root your device",
+    
+    #-- Icon: <AROMA Resource Dir>/icons/personalize.png or <ThemeDir>/icon.personalize.png
+    "@sim",
+    
+    #-- Will be saved in /tmp/aroma/ap_su.prop
+    "he_su.prop",
+
+    #----------[ Selectbox Without Group ]---------------#
+    # TITLE            |  SUBTITLE       | Initial Value #
+    #------------------+-----------------+---------------#
+    #--------[ Initial Value = 0: Unselected, 1: Selected, 2: Group Item, 3: Not Visible ]---------#
+
+    "No root",                  "patched kernel without root",        0, #-- selected.0 = 1
+    "Magisk",                   "patched kernel rooted by Magisk",    1, #-- selected.0 = 2
+    "SuperSU",                  "patched kernel rooted by SuperSU",   0 #-- selected.0 = 3
+
+  );
+	
+
+###################################################################################################################
+#
+# STEP 5 - INSTALLING
+#
+viewbox(
+  "ready to install",
+  "all informations has been collected for installation.\n\n"+
+  "press <b>Next</b> to start the installation..."+
+  "if you want to review or change any of your installation settings, press <b>Back</b>.",
+  "@info"
+);
+
+setvar("retstatus",
+install(
+  "installing",
+  "installing <b>" + ini_get("rom_name") + " " + ini_get("rom_version") + "</b>" +
+  "...\nplease wait until it's finished...",
+  "@install")
+);
+
+#set Next text fo Finish
+ini_set("text_next", "Finish");
+
+#Save installation config
+resexec("scripts/save.sh");
+
+if getvar("retstatus")=="0" then
+
+      viewbox(
+              "installation Completed",
+              "<#080>Congratulations...</#>\n\n"+
+        ini_get("rom_name") + " " + ini_get("rom_version") + " has been installed successfully.\n\n"+
+              "tap Finish, and Reboot your device.\n\nThanks.",
+              "@info"
+      );
+else
+      viewbox(
+           "installation failed",
+           "\n\ninstaller status: "+ getvar("retstatus"),
+           "@alert"
+      );
+endif;

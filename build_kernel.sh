@@ -206,6 +206,54 @@ FUNC_BUILD_BOOT_IMAGE()
 }
 
 
+ZIP_FILE_DIR=$BUILD_KERNEL_DIR/BUILD
+ZIP_NAME=exynos8890-helios-v$KERNEL_VERSION.zip
+ZIP_FILE_TARGET=$ZIP_FILE_DIR/$ZIP_NAME
+
+FUNC_PACK_ZIP_FILE()
+{
+	echo ""
+	echo "================================="
+	echo "START : FUNC_PACK_ZIP_FILE"
+	echo "================================="
+	echo ""
+	echo "ZIP file target : $ZIP_FILE_TARGET"
+
+	rm -f $ZIP_FILE_DIR/kernel/boot-"$MODEL".img
+	rm -f $ZIP_FILE_TARGET
+	cp $BOOT_IMAGE_TARGET $ZIP_FILE_DIR/kernel
+
+	cd $ZIP_FILE_DIR
+
+	echo "Packing boot.img..."
+        sed -i "s/ini_set(\"rom_version\",.*\".*\");/ini_set(\"rom_version\",          \"${KERNEL_VERSION}\");/g" META-INF/com/google/android/aroma-config
+
+        export LC_TIME=en_US
+        CURRENT_DATE=`date +"%d %B %Y"`
+        sed -i "s/ini_set(\"rom_date\",.*\".*\");/ini_set(\"rom_date\",             \"${CURRENT_DATE}\");/g" META-INF/com/google/android/aroma-config
+
+	zip -gq $ZIP_NAME -r META-INF/ -x "*~"
+	zip -gq $ZIP_NAME -r system/ -x "*~" 
+	zip -gq $ZIP_NAME -r kernel/ -x "*~" 
+	zip -gq $ZIP_NAME -r magisk/ -x "*~" 
+	zip -gq $ZIP_NAME -r su/ -x "*~" 
+	zip -gq $ZIP_NAME -r scripts/ -x "*~" 
+	zip -gq $ZIP_NAME -r bp/ -x "*~" 
+
+	if [ ! -f "$ZIP_FILE_TARGET" ]; then
+		exit -1
+	fi
+
+	chmod a+r $ZIP_NAME
+	ls -l $ZIP_NAME
+
+	echo ""
+	echo "================================="
+	echo "END   : FUNC_PACK_ZIP_FILE"
+	echo "================================="
+	echo ""
+}
+
 # MAIN FUNCTION
 rm -rf ./build.log
 (
@@ -215,6 +263,7 @@ rm -rf ./build.log
     FUNC_BUILD_KERNEL
     FUNC_BUILD_DTIMAGE_TARGET
     FUNC_BUILD_BOOT_IMAGE
+    FUNC_PACK_ZIP_FILE
 
     END_TIME=`date +%s`
 	

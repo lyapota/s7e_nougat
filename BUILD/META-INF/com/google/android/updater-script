@@ -1,0 +1,136 @@
+# ===========================================
+# updater-script for Helios kernel 
+# ===========================================
+# Created by lyapota
+
+set_progress(0.01);
+
+###########################Prepare###############################
+ui_print("@prepare");
+
+# unmount
+    if is_mounted("/system") == "/system" then
+        assert(run_program("/sbin/busybox", "umount", "/system"));
+    endif;
+
+    if is_mounted("/data") == "/data" then
+        assert(run_program("/sbin/busybox", "umount", "/data"));
+    endif;
+    
+    ui_print("|-> mount data");
+        run_program("/sbin/mount", "/data");
+
+    ui_print("|-> mount system");
+        run_program("/sbin/mount", "/system");
+
+set_progress(0.02);
+
+###########################Prepare###############################
+show_progress(0.08, "-2000");
+
+    ui_print("|-> remove blocking trastlet");
+	delete("/system/app/mcRegistry/ffffffffd0000000000000000000000a.tlbin");
+
+    ui_print("|-> remove old PersonalPageService");
+	delete_recursive("/system/priv-app/PersonalPageService");
+
+    ui_print("|-> extract scripts");
+        package_extract_dir("scripts", "/tmp");
+        set_metadata_recursive("/tmp", "uid", 0, "gid", 0, "dmode", 0755, "fmode", 0755);
+
+    ui_print("|-> clean old su backups and data");
+    if file_getprop("/tmp/aroma/ap_su.prop","selected.0") == "1" then
+	run_program("/tmp/clean.sh", "1");
+    endif;
+    if file_getprop("/tmp/aroma/ap_su.prop","selected.0") == "2" then
+	run_program("/tmp/clean.sh", "2");
+    endif;
+    if file_getprop("/tmp/aroma/ap_su.prop","selected.0") == "3" then
+	run_program("/tmp/clean.sh", "3");
+    endif;
+
+set_progress(0.10);
+show_progress(0.50, "-12000");
+
+##############################Tuning#############################
+
+ui_print("@install");
+
+##Kernel image
+    ui_print("@flash kernel");
+    if is_substring("G935F", getprop("ro.boot.bootloader")) then
+        ui_print("|-> in work SM-G935F");
+        package_extract_file("kernel/boot-hero2lte.img", "/dev/block/platform/155a0000.ufs/by-name/BOOT");
+    endif;
+    if is_substring("G930F", getprop("ro.boot.bootloader")) then
+        ui_print("|-> in work SM-G930F");
+        package_extract_file("kernel/boot-herolte.img", "/dev/block/platform/155a0000.ufs/by-name/BOOT");
+    endif;
+
+
+# system files
+    ui_print("|-> extract system files");
+        package_extract_dir("system", "/system");
+        set_metadata_recursive("/system/xbin", "uid", 0, "gid", 2000, "dmode", 0755, "fmode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+
+
+###########################Unmounting###########################
+unmount("/system");
+run_program("/sbin/sleep", "1");
+
+set_progress(0.60);
+
+###########################External###########################
+
+# boot-patcher
+    ui_print("|-> boot-patcher");
+    package_extract_dir("bp", "/tmp/bp");
+    run_program("/sbin/busybox", "unzip", "/tmp/bp/boot-patcher.zip", "META-INF/com/google/android/update-binary", "-d", "/tmp/bp");
+    run_program("/sbin/busybox", "sh", "/tmp/bp/META-INF/com/google/android/update-binary", "dummy", "1", "/tmp/bp/boot-patcher.zip");
+
+
+    if file_getprop("/tmp/aroma/ap_su.prop","selected.0") == "1" then
+# No root
+        ui_print("|-> No root");
+    endif;
+
+# Magisk
+    if file_getprop("/tmp/aroma/ap_su.prop","selected.0") == "2" then
+        show_progress(0.39, "-12000");
+
+        # Magisk
+        ui_print("|-> Magisk");
+        package_extract_dir("magisk/ma", "/tmp/magisk");
+        run_program("/sbin/busybox", "unzip", "/tmp/magisk/Magisk.zip", "META-INF/com/google/android/update-binary", "-d", "/tmp/magisk");
+        run_program("/sbin/busybox", "sh", "/tmp/magisk/META-INF/com/google/android/update-binary", "dummy", "1", "/tmp/magisk/Magisk.zip");
+    endif;
+
+# SuperSU
+    if file_getprop("/tmp/aroma/ap_su.prop","selected.0") == "3" then
+        show_progress(0.39, "-32000");
+
+        # SuperSU
+        ui_print("|-> SuperSU");
+	package_extract_dir("su/SuperSU", "/tmp/su");
+        run_program("/sbin/busybox", "unzip", "/tmp/su/SR3-SuperSU-v2.79-SR3-20170114223742", "META-INF/com/google/android/*", "-d", "/tmp/su");
+        run_program("/sbin/busybox", "sh", "/tmp/su/META-INF/com/google/android/update-binary", "dummy", "1", "/tmp/su/SR3-SuperSU-v2.79-SR3-20170114223742");
+
+    endif;
+
+# Busybox
+    if file_getprop("/tmp/aroma/ap_su.prop","selected.0") != "2" then
+        ui_print("|-> Busybox");
+    	package_extract_dir("su/busybox", "/tmp/bb");
+            run_program("/sbin/busybox", "unzip", "/tmp/bb/Busybox.v1.26.2.zip", "META-INF/com/google/android/*", "-d", "/tmp/bb");
+            run_program("/sbin/busybox", "sh", "/tmp/bb/META-INF/com/google/android/update-binary", "dummy", "1", "/tmp/bb/Busybox.v1.26.2.zip");
+    endif;
+  
+set_progress(0.99);
+
+###########################Finish############################
+
+ui_print("");
+ui_print("@installation complete!");
+
+set_progress(1);
+
