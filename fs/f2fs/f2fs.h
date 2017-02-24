@@ -84,7 +84,7 @@ extern char *fault_name[FAULT_MAX];
 #define F2FS_MOUNT_FAULT_INJECTION	0x00010000
 #define F2FS_MOUNT_ADAPTIVE		0x00020000
 #define F2FS_MOUNT_LFS			0x00040000
-
+#define LOOKUP_CASE_INSENSITIVE	0x8000
 #define clear_opt(sbi, option)	(sbi->mount_opt.opt &= ~F2FS_MOUNT_##option)
 #define set_opt(sbi, option)	(sbi->mount_opt.opt |= F2FS_MOUNT_##option)
 #define test_opt(sbi, option)	(sbi->mount_opt.opt & F2FS_MOUNT_##option)
@@ -98,6 +98,12 @@ typedef u32 block_t;	/*
 			 * address format, __le32.
 			 */
 typedef u32 nid_t;
+
+struct ci_name_buf {
+	char name[F2FS_NAME_LEN+1];
+	f2fs_hash_t name_hash;
+	bool match;
+};
 
 struct f2fs_mount_info {
 	unsigned int	opt;
@@ -802,6 +808,7 @@ struct f2fs_sb_info {
 
 	/* for checkpoint */
 	struct f2fs_checkpoint *ckpt;		/* raw checkpoint pointer */
+	int cur_cp_pack;			/* remain current cp pack */
 	spinlock_t cp_lock;			/* for flag in ckpt */
 	struct inode *meta_inode;		/* cache meta blocks */
 	struct mutex cp_mutex;			/* checkpoint procedure lock */
@@ -1367,20 +1374,25 @@ static inline void *__bitmap_ptr(struct f2fs_sb_info *sbi, int flag)
 
 static inline block_t __start_cp_addr(struct f2fs_sb_info *sbi)
 {
-	block_t start_addr;
-	struct f2fs_checkpoint *ckpt = F2FS_CKPT(sbi);
-	unsigned long long ckpt_version = cur_cp_version(ckpt);
+	block_t start_addr = le32_to_cpu(F2FS_RAW_SUPER(sbi)->cp_blkaddr);
 
-	start_addr = le32_to_cpu(F2FS_RAW_SUPER(sbi)->cp_blkaddr);
-
-	/*
-	 * odd numbered checkpoint should at cp segment 0
-	 * and even segment must be at cp segment 1
-	 */
-	if (!(ckpt_version & 1))
+	if (sbi->cur_cp_pack == 2)
 		start_addr += sbi->blocks_per_seg;
-
 	return start_addr;
+}
+
+static inline block_t __start_cp_next_addr(struct f2fs_sb_info *sbi)
+{
+	block_t start_addr = le32_to_cpu(F2FS_RAW_SUPER(sbi)->cp_blkaddr);
+
+	if (sbi->cur_cp_pack == 1)
+		start_addr += sbi->blocks_per_seg;
+	return start_addr;
+}
+
+static inline void __set_cp_next_pack(struct f2fs_sb_info *sbi)
+{
+	sbi->cur_cp_pack = (sbi->cur_cp_pack == 1) ? 2 : 1;
 }
 
 static inline block_t __start_sum_addr(struct f2fs_sb_info *sbi)
@@ -1994,7 +2006,7 @@ struct dentry *f2fs_get_parent(struct dentry *child);
 void set_de_type(struct f2fs_dir_entry *, umode_t);
 unsigned char get_de_type(struct f2fs_dir_entry *);
 struct f2fs_dir_entry *find_target_dentry(struct fscrypt_name *,
-			f2fs_hash_t, int *, struct f2fs_dentry_ptr *);
+			f2fs_hash_t, int *, struct f2fs_dentry_ptr *, struct ci_name_buf *ci_name_bu);
 bool f2fs_fill_dentries(struct dir_context *, struct f2fs_dentry_ptr *,
 			unsigned int, struct fscrypt_str *);
 void do_make_empty_dir(struct inode *, struct inode *,
@@ -2004,10 +2016,10 @@ struct page *init_inode_metadata(struct inode *, struct inode *,
 void update_parent_metadata(struct inode *, struct inode *, unsigned int);
 int room_for_filename(const void *, int, int);
 void f2fs_drop_nlink(struct inode *, struct inode *);
-struct f2fs_dir_entry *__f2fs_find_entry(struct inode *, struct fscrypt_name *,
-							struct page **);
 struct f2fs_dir_entry *f2fs_find_entry(struct inode *, struct qstr *,
-							struct page **);
+							struct page **, struct ci_name_buf *ci_name_bu);
+struct f2fs_dir_entry *__f2fs_find_entry(struct inode *, struct fscrypt_name *,
+							struct page **, struct ci_name_buf *ci_name_bu);
 struct f2fs_dir_entry *f2fs_parent_dir(struct inode *, struct page **);
 ino_t f2fs_inode_by_name(struct inode *, struct qstr *, struct page **);
 void f2fs_set_link(struct inode *, struct f2fs_dir_entry *,
