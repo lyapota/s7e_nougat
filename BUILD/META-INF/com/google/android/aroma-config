@@ -134,7 +134,7 @@ endif;
     #-- Icon: <AROMA Resource Dir>/icons/personalize.png or <ThemeDir>/icon.personalize.png
     "@sim",
     
-    #-- Will be saved in /tmp/aroma/ap_su.prop
+    #-- Will be saved in /tmp/aroma/he_su.prop
     "he_su.prop",
 
     #----------[ Selectbox Without Group ]---------------#

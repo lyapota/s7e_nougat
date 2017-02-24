@@ -39,13 +39,13 @@ show_progress(0.08, "-2000");
         set_metadata_recursive("/tmp", "uid", 0, "gid", 0, "dmode", 0755, "fmode", 0755);
 
     ui_print("|-> clean old su backups and data");
-    if file_getprop("/tmp/aroma/ap_su.prop","selected.0") == "1" then
+    if file_getprop("/tmp/aroma/he_su.prop","selected.0") == "1" then
 	run_program("/tmp/clean.sh", "1");
     endif;
-    if file_getprop("/tmp/aroma/ap_su.prop","selected.0") == "2" then
+    if file_getprop("/tmp/aroma/he_su.prop","selected.0") == "2" then
 	run_program("/tmp/clean.sh", "2");
     endif;
-    if file_getprop("/tmp/aroma/ap_su.prop","selected.0") == "3" then
+    if file_getprop("/tmp/aroma/he_su.prop","selected.0") == "3" then
 	run_program("/tmp/clean.sh", "3");
     endif;
 
@@ -89,13 +89,13 @@ set_progress(0.60);
     run_program("/sbin/busybox", "sh", "/tmp/bp/META-INF/com/google/android/update-binary", "dummy", "1", "/tmp/bp/boot-patcher.zip");
 
 
-    if file_getprop("/tmp/aroma/ap_su.prop","selected.0") == "1" then
+    if file_getprop("/tmp/aroma/he_su.prop","selected.0") == "1" then
 # No root
         ui_print("|-> No root");
     endif;
 
 # Magisk
-    if file_getprop("/tmp/aroma/ap_su.prop","selected.0") == "2" then
+    if file_getprop("/tmp/aroma/he_su.prop","selected.0") == "2" then
         show_progress(0.39, "-12000");
 
         # Magisk
@@ -106,7 +106,7 @@ set_progress(0.60);
     endif;
 
 # SuperSU
-    if file_getprop("/tmp/aroma/ap_su.prop","selected.0") == "3" then
+    if file_getprop("/tmp/aroma/he_su.prop","selected.0") == "3" then
         show_progress(0.39, "-32000");
 
         # SuperSU
@@ -118,7 +118,7 @@ set_progress(0.60);
     endif;
 
 # Busybox
-    if file_getprop("/tmp/aroma/ap_su.prop","selected.0") != "2" then
+    if file_getprop("/tmp/aroma/he_su.prop","selected.0") != "2" then
         ui_print("|-> Busybox");
     	package_extract_dir("su/busybox", "/tmp/bb");
             run_program("/sbin/busybox", "unzip", "/tmp/bb/Busybox.v1.26.2.zip", "META-INF/com/google/android/*", "-d", "/tmp/bb");
