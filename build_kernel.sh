@@ -30,7 +30,7 @@ BUILD_JOB_NUMBER=`grep processor /proc/cpuinfo|wc -l`
 
 export PATH=$(pwd)/bin:$PATH
 
-KERNEL_VERSION="7.9.0"
+KERNEL_VERSION="7.13.0"
 KERNEL_NAME="-helios"
 export LOCALVERSION=${KERNEL_NAME}-v${KERNEL_VERSION}
 
@@ -232,7 +232,6 @@ FUNC_PACK_ZIP_FILE()
         sed -i "s/ini_set(\"rom_date\",.*\".*\");/ini_set(\"rom_date\",             \"${CURRENT_DATE}\");/g" META-INF/com/google/android/aroma-config
 
 	zip -gq $ZIP_NAME -r META-INF/ -x "*~"
-	zip -gq $ZIP_NAME -r system/ -x "*~" 
 	zip -gq $ZIP_NAME -r kernel/ -x "*~" 
 	zip -gq $ZIP_NAME -r magisk/ -x "*~" 
 	zip -gq $ZIP_NAME -r su/ -x "*~" 
