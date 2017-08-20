@@ -193,12 +193,10 @@ static int __init enforcing_setup(char *str)
 		selinux_enforcing = 1;
 #elif defined(CONFIG_SECURITY_SELINUX_NEVER_ENFORCE)
 		selinux_enforcing = 0;
-#else
-#if defined(CONFIG_SECURITY_SELINUX_ENFORCING)
+#elif defined(CONFIG_SECURITY_SELINUX_ENFORCING)
 		selinux_enforcing = CONFIG_SECURITY_SELINUX_ENFORCING;
 #else
 		selinux_enforcing = enforcing ? 1 : 0;
-#endif
 #endif
 // ] SEC_SELINUX_PORTING_COMMON
 	return 1;
@@ -7232,6 +7230,8 @@ static __init int selinux_init(void)
 	selinux_enforcing = 1;
 #elif defined(CONFIG_SECURITY_SELINUX_NEVER_ENFORCE)
 	selinux_enforcing = 0;
+#elif defined(CONFIG_SECURITY_SELINUX_ENFORCING)
+	selinux_enforcing = CONFIG_SECURITY_SELINUX_ENFORCING;
 #endif
 // ] SEC_SELINUX_PORTING_COMMON
 	if (selinux_enforcing)

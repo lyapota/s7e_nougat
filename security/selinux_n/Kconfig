@@ -90,7 +90,7 @@ config SECURITY_SELINUX_AVC_STATS
 
 config SECURITY_SELINUX_ENFORCING
 	int "NSA SELinux Enforcing default value"
-	depends on SECURITY_SELINUX && !SECURITY_SELINUX_DEVELOP
+	depends on SECURITY_SELINUX
 	range 0 1
 	default 1
 	help
