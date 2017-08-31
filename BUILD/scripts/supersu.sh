@@ -2,8 +2,8 @@
 rm -f /data/.supersu
 rm -f /cache/.supersu
 
-if [ -f "/tmp/aroma/ge_su_install.prop" ]; then
-  INSTALL=`cat /tmp/aroma/ge_su_install.prop | grep "selected.0" | cut -f 2 -d '='`
+if [ -f "/tmp/aroma/he_su_install.prop" ]; then
+  INSTALL=`cat /tmp/aroma/he_su_install.prop | grep "selected.0" | cut -f 2 -d '='`
   if [ "$INSTALL" = "2" ]; then
     # System
     echo "SYSTEMLESS=false">>/data/.supersu
@@ -18,8 +18,8 @@ if [ -f "/tmp/aroma/ge_su_install.prop" ]; then
   fi
 fi
 
-if [ -f "/tmp/aroma/ge_su_encrypt.prop" ]; then
-  KEEPVERITY=`cat /tmp/aroma/ge_su_encrypt.prop | grep "selected.1" | cut -f 2 -d '='`
+if [ -f "/tmp/aroma/he_su_encrypt.prop" ]; then
+  KEEPVERITY=`cat /tmp/aroma/he_su_encrypt.prop | grep "selected.1" | cut -f 2 -d '='`
   if [ "$KEEPVERITY" = "2" ]; then
     # Remove
     echo "KEEPVERITY=false">>/data/.supersu
@@ -28,7 +28,7 @@ if [ -f "/tmp/aroma/ge_su_encrypt.prop" ]; then
     echo "KEEPVERITY=true">>/data/.supersu
   fi
 
-  KEEPFORCEENCRYPT=`cat /tmp/aroma/ge_su_encrypt.prop | grep "selected.2" | cut -f 2 -d '='`
+  KEEPFORCEENCRYPT=`cat /tmp/aroma/he_su_encrypt.prop | grep "selected.2" | cut -f 2 -d '='`
   if [ "$KEEPFORCEENCRYPT" = "2" ]; then
     # Remove
     echo "KEEPFORCEENCRYPT=false">>/data/.supersu
@@ -37,7 +37,7 @@ if [ -f "/tmp/aroma/ge_su_encrypt.prop" ]; then
     echo "KEEPFORCEENCRYPT=true">>/data/.supersu
   fi
 
-  REMOVEENCRYPTABLE=`cat /tmp/aroma/ge_su_encrypt.prop | grep "selected.3" | cut -f 2 -d '='`
+  REMOVEENCRYPTABLE=`cat /tmp/aroma/he_su_encrypt.prop | grep "selected.3" | cut -f 2 -d '='`
   if [ "$REMOVEENCRYPTABLE" = "2" ]; then
     # Remove
     echo "REMOVEENCRYPTABLE=true">>/data/.supersu
@@ -47,8 +47,8 @@ if [ -f "/tmp/aroma/ge_su_encrypt.prop" ]; then
   fi
 fi
 
-if [ -f "/tmp/aroma/ge_su_misc.prop" ]; then
-  FRP=`cat /tmp/aroma/ge_su_misc.prop | grep "selected.1" | cut -f 2 -d '='`
+if [ -f "/tmp/aroma/he_su_misc.prop" ]; then
+  FRP=`cat /tmp/aroma/he_su_misc.prop | grep "selected.1" | cut -f 2 -d '='`
   if [ "$FRP" = "2" ]; then
     # Enable
     echo "FRP=true">>/data/.supersu
@@ -57,7 +57,7 @@ if [ -f "/tmp/aroma/ge_su_misc.prop" ]; then
     echo "FRP=false">>/data/.supersu
   fi
 
-  BINDSYSTEMXBIN=`cat /tmp/aroma/ge_su_misc.prop | grep "selected.2" | cut -f 2 -d '='`
+  BINDSYSTEMXBIN=`cat /tmp/aroma/he_su_misc.prop | grep "selected.2" | cut -f 2 -d '='`
   if [ "$BINDSYSTEMXBIN" = "2" ]; then
     # Enable
     echo "BINDSYSTEMXBIN=true">>/data/.supersu
@@ -66,7 +66,7 @@ if [ -f "/tmp/aroma/ge_su_misc.prop" ]; then
     echo "BINDSYSTEMXBIN=false">>/data/.supersu
   fi
 
-  PERMISSIVE=`cat /tmp/aroma/ge_su_misc.prop | grep "selected.3" | cut -f 2 -d '='`
+  PERMISSIVE=`cat /tmp/aroma/he_su_misc.prop | grep "selected.3" | cut -f 2 -d '='`
   if [ "$PERMISSIVE" = "2" ]; then
     # Enforcing
     echo "PERMISSIVE=false">>/data/.supersu
