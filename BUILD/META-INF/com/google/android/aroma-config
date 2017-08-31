@@ -147,6 +147,74 @@ endif;
     "SuperSU",                  "patched kernel rooted by SuperSU",   0 #-- selected.0 = 3
 
   );
+
+  if prop("he_su.prop","selected.0")=="3" then
+    #########
+    ## SuperSU
+    #########
+
+      selectbox(
+        "SuperSU",
+        "Select installation type. Not all types are supported on all Android versions. System mode requires ROM support on Android >= 6.0.",
+        "",
+        "he_su_install.prop",
+
+        "Auto-detect",        "Let SuperSU decide",                                                           1,
+        "System",             "Force system installation, default on Android < 6.0",                          0,
+        "Systemless Image",   "Force systemless installation in image mode, default on Android 6.x and 7.x",  0,
+        "Systemless SBIN",    "Force systemless installation in SBIN mode, default on Android >= 8.x",        0
+      );
+
+      # KEEPVERITY, KEEPFORCEENCRYPT, REMOVEENCRYPTABLE
+
+      selectbox(
+        "SuperSU",
+        "Configure encryption options. These apply only to systemless installations.",
+        "",
+        "he_su_encrypt.prop",
+
+        "dm-verity", "", 2,
+            "Auto-detect",    "Let SuperSU decide",                                                           1,
+            "Remove",         "Disable dm-verity, default",                                                   0,
+            "Keep",           "Keep dm-verity enabled. Prevents booting with a modified system partition.",   0,
+
+        "force-encrypt", "", 2,
+            "Auto-detect",    "Let SuperSU decide",                                                           1,
+            "Remove",         "Disable forced encryption of the data partition, default",                     0,
+            "Keep",           "Keep data encryption force enabled",                                           0,
+
+        "encryptable", "", 2,
+            "Auto-detect",    "Let SuperSU decide",                                                               1,
+            "Remove",         "Disable encryption of the data partition completely, default on Samsung >= 7.0",   0,
+            "Keep",           "Keep optional data encryption enabled, default on all other devices",              0
+      );
+
+      # FRP, BINDSYSTEMXBIN, PERMISSIVE
+
+      selectbox(
+        "SuperSU",
+        "Configure miscellaneous options. These apply only to systemless installations.",
+        "",
+        "he_su_misc.prop",
+
+        "Factory reset protection", "", 2,
+            "Auto-detect",    "Let SuperSU decide",                                                                        1,
+            "Enable",         "Allow su binaries (not the GUI) to survive a data wipe. Most devices lack space for this.", 0,
+            "Disable",        "Do not survive a data wipe. Default on most devices.",                                      0,
+
+        "Bind /system/xbin", "", 2,
+            "Auto-detect",    "Let SuperSU decide",                                                                                               1,
+            "Enable",         "Make the su binaries appear in /system/xbin. Compatibility feature required only for outdated root apps.",    0,
+            "Disable",        "Normal compatibility, default",                                                                                    0,
+
+        "SELinux", "", 2,
+            "Auto-detect",    "Let SuperSU decide",                                                                                   1,
+            "Enforcing",      "Keep SELinux in enforcing mode, patching only the needed rules to allow SuperSU to function, default", 0,
+            "Permissive",     "Set SELinux to permissive mode, disabling its added security",                                         0
+      );
+  else
+    writetmpfile("he_su_install.prop", "selected.0=1\n");
+  endif;
 	
 
 ###################################################################################################################

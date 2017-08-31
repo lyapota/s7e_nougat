@@ -101,17 +101,25 @@ set_progress(0.60);
         show_progress(0.39, "-32000");
 
         ui_print("|-> SuperSU");
+        run_program("/tmp/supersu.sh");
 	package_extract_dir("su/SuperSU", "/tmp/su");
-        run_program("/sbin/busybox", "unzip", "/tmp/su/SuperSU-v2.82-201705271822", "META-INF/com/google/android/*", "-d", "/tmp/su");
-        run_program("/sbin/busybox", "sh", "/tmp/su/META-INF/com/google/android/update-binary", "dummy", "1", "/tmp/su/SuperSU-v2.82-201705271822");
+        run_program("/sbin/busybox", "unzip", "/tmp/su/SuperSU-v2.82-201708131332.zip", "META-INF/com/google/android/*", "-d", "/tmp/su");
+        run_program("/sbin/busybox", "sh", "/tmp/su/META-INF/com/google/android/update-binary", "dummy", "1", "/tmp/su/SuperSU-v2.82-201708131332.zip");
+
+        if file_getprop("/tmp/aroma/he_su_install.prop","selected.0") == "4" then
+            ui_print("|-> SuperSU hide");
+            package_extract_dir("su/SU_Hide", "/tmp/suh");
+            run_program("/sbin/busybox", "unzip", "/tmp/suh/suhide-v1.08-201708151710.zip", "META-INF/com/google/android/*", "-d", "/tmp/suh");
+            run_program("/sbin/busybox", "sh", "/tmp/suh/META-INF/com/google/android/update-binary", "dummy", "1", "/tmp/suh/suhide-v1.08-201708151710.zip");
+        endif;
 
     endif;
 
 # Busybox
     ui_print("|-> Busybox");
     package_extract_dir("su/busybox", "/tmp/bb");
-    run_program("/sbin/busybox", "unzip", "/tmp/bb/Busybox.v1.26.2.zip", "META-INF/com/google/android/*", "-d", "/tmp/bb");
-    run_program("/sbin/busybox", "sh", "/tmp/bb/META-INF/com/google/android/update-binary", "dummy", "1", "/tmp/bb/Busybox.v1.26.2.zip");
+    run_program("/sbin/busybox", "unzip", "/tmp/bb/Busybox.v1.27.2.zip", "META-INF/com/google/android/*", "-d", "/tmp/bb");
+    run_program("/sbin/busybox", "sh", "/tmp/bb/META-INF/com/google/android/update-binary", "dummy", "1", "/tmp/bb/Busybox.v1.27.2.zip");
   
 set_progress(0.99);
 
