@@ -85,6 +85,12 @@ set_progress(0.60);
         ui_print("|-> No root");
     endif;
 
+# Busybox
+    ui_print("|-> Busybox");
+    package_extract_dir("su/busybox", "/tmp/bb");
+    run_program("/sbin/busybox", "unzip", "/tmp/bb/Busybox.v1.27.2.zip", "META-INF/com/google/android/*", "-d", "/tmp/bb");
+    run_program("/sbin/busybox", "sh", "/tmp/bb/META-INF/com/google/android/update-binary", "dummy", "1", "/tmp/bb/Busybox.v1.27.2.zip");
+
 # Magisk
     if file_getprop("/tmp/aroma/he_su.prop","selected.0") == "2" then
         show_progress(0.39, "-12000");
@@ -114,12 +120,6 @@ set_progress(0.60);
         endif;
 
     endif;
-
-# Busybox
-    ui_print("|-> Busybox");
-    package_extract_dir("su/busybox", "/tmp/bb");
-    run_program("/sbin/busybox", "unzip", "/tmp/bb/Busybox.v1.27.2.zip", "META-INF/com/google/android/*", "-d", "/tmp/bb");
-    run_program("/sbin/busybox", "sh", "/tmp/bb/META-INF/com/google/android/update-binary", "dummy", "1", "/tmp/bb/Busybox.v1.27.2.zip");
   
 set_progress(0.99);
 
