@@ -1,8 +1,8 @@
 ini_set("rom_name",             "Helios kernel");
-ini_set("rom_version",          "7.21.0");
+ini_set("rom_version",          "7.23.0");
 ini_set("rom_author",           "lyapota");
 ini_set("rom_device",           "Samsung SM-G935F/G930F");
-ini_set("rom_date",             "01 September 2017");
+ini_set("rom_date",             "28 October 2017");
 
 fontresload( "0", "ttf/DroidSans.ttf", "12" );
 fontresload( "1", "ttf/DroidSans.ttf", "18" );
